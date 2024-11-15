@@ -104,19 +104,29 @@ export default function App() {
           ))}
         </div>
       ) : (
-        <p>
-          You had:{" "}
+        <div className="grid gap-6">
+          You wrote{" "}
           <span>
-            {fontColor.reduce(
-              (acc, element) =>
-                element === "text-red-500" || element === "bg-red-500"
-                  ? acc + 1
-                  : acc,
-              0
-            )}
+            {wordArray
+              .join("")
+              .split(" ")
+              .reduce((acc, element) => (element ? acc + 1 : acc), 0)}
           </span>{" "}
-          errors
-        </p>
+          words
+          <p>
+            You had:{" "}
+            <span>
+              {fontColor.reduce(
+                (acc, element) =>
+                  element === "text-red-500" || element === "bg-red-500"
+                    ? acc + 1
+                    : acc,
+                0
+              )}
+            </span>{" "}
+            errors
+          </p>
+        </div>
       )}
       <p className="text-2xl">
         <span>{formatNumber(timer.seconds)}</span>:
