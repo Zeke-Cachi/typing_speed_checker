@@ -3,6 +3,8 @@ import { KeyboardEvent, useState, useRef, useEffect } from "react";
 export default function App() {
   const paragraphRef = useRef<HTMLDivElement>(null);
 
+  //--------------------------------------------------------------------------------------------------------------------------
+
   const [word] = useState(
     "hello from the gutter. Im a very sophisticated person which likes to fancy around in big cars and do stuff".split(
       ""
@@ -17,7 +19,9 @@ export default function App() {
     miliseconds: 0,
   });
 
+  //-------------------------------------------------------------------------------------------------------------------------
   useEffect(() => {
+    if (paragraphRef.current) paragraphRef.current.focus();
     let interval: number;
     if (startTyping === true) {
       interval = setInterval(() => {
@@ -40,6 +44,7 @@ export default function App() {
     return () => clearInterval(interval);
   }, [startTyping]);
 
+  //--------------------------------------------------------------------------------------------------------------------------
   const handleTyping = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!startTyping) return;
     if (e.key === "Delete" || e.key === "Backspace") {
@@ -63,15 +68,25 @@ export default function App() {
         ]);
   };
 
+  //--------------------------------------------------------------------------------------------------------------------------
   const handleClick = () => {
     setStartTyping(true);
-    if (paragraphRef.current) {
-      paragraphRef.current.focus();
+    if (showResults) {
+      resetTurn();
     }
   };
 
+  //--------------------------------------------------------------------------------------------------------------------------
   const formatNumber = (num: number) => num.toString().padStart(2, "0");
 
+  //--------------------------------------------------------------------------------------------------------------------------
+  const resetTurn = () => {
+    setShowResults(false);
+    setWordArray([]);
+    setFontColor([]);
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
     <main className="lg:p-24 mx-auto text-center grid lg:gap-12">
       <h1>Typing Speed Checker</h1>
