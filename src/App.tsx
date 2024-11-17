@@ -1,15 +1,10 @@
 import { KeyboardEvent, useState, useRef, useEffect } from "react";
-
 export default function App() {
   const paragraphRef = useRef<HTMLDivElement>(null);
 
   //--------------------------------------------------------------------------------------------------------------------------
 
-  const [word] = useState(
-    "hello from the gutter. Im a very sophisticated person which likes to fancy around in big cars and do stuff".split(
-      ""
-    )
-  );
+  const [word, setWord] = useState<string>();
   const [wordArray, setWordArray] = useState<string[]>([]);
   const [fontColor, setFontColor] = useState<string[]>([]);
   const [startTyping, setStartTyping] = useState<boolean>(false);
