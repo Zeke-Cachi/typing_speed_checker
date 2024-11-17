@@ -1,10 +1,12 @@
 import { KeyboardEvent, useState, useRef, useEffect } from "react";
+import paragraphs from "../paragraphs.json";
+
 export default function App() {
   const paragraphRef = useRef<HTMLDivElement>(null);
 
   //--------------------------------------------------------------------------------------------------------------------------
 
-  const [word, setWord] = useState<string>();
+  const [word, setWord] = useState<string[]>([]);
   const [wordArray, setWordArray] = useState<string[]>([]);
   const [fontColor, setFontColor] = useState<string[]>([]);
   const [startTyping, setStartTyping] = useState<boolean>(false);
@@ -15,6 +17,13 @@ export default function App() {
   });
 
   //-------------------------------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    const randomIndex: number = Math.floor(
+      Math.random() * paragraphs.english.length
+    );
+    setWord(paragraphs.english[randomIndex].split(""));
+  }, [startTyping]);
+
   useEffect(() => {
     if (paragraphRef.current) paragraphRef.current.focus();
     let interval: number;
@@ -49,15 +58,15 @@ export default function App() {
     } else if (e.key === "Shift") return;
     const temporalWordArr = [...wordArray, e.key];
     setWordArray((oldValue) => [...oldValue, e.key]);
-    if (temporalWordArr.length === word.length) {
+    if (temporalWordArr.length === word!.length) {
       setStartTyping(false);
     }
     return temporalWordArr[temporalWordArr.length - 1] ===
-      word[temporalWordArr.length - 1]
+      word![temporalWordArr.length - 1]
       ? setFontColor((prev) => [...prev, "text-green-500"])
       : setFontColor((prev) => [
           ...prev,
-          word[temporalWordArr.length - 1].trim().length === 0
+          word![temporalWordArr.length - 1].trim().length === 0
             ? "bg-red-500"
             : "text-red-500",
         ]);
@@ -92,11 +101,12 @@ export default function App() {
           className="focus:outline-none"
           ref={paragraphRef}
         >
-          {word.map((element, i) => (
-            <span key={i} className={`font-bold ${fontColor[i]}`}>
-              {element}
-            </span>
-          ))}
+          {word!.length > 0 &&
+            word!.map((element, i) => (
+              <span key={i} className={`font-bold ${fontColor[i]}`}>
+                {element}
+              </span>
+            ))}
         </div>
       ) : (
         <div className="grid gap-6">
