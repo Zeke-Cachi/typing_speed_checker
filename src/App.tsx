@@ -72,7 +72,10 @@ export default function App() {
       return;
     }
     let accentedLetter: string = "";
-    if (spanishAccentRef.current === "Dead") {
+    if (
+      spanishAccentRef.current === "Dead" &&
+      ["a", "e", "i", "o", "u"].includes(e.key)
+    ) {
       switch (e.key) {
         case "a":
           accentedLetter = "á";
@@ -94,16 +97,19 @@ export default function App() {
     const temporalWordArr = [
       ...wordArray,
       spanishAccentRef.current === "Dead"
-        ? accentedLetter
+        ? accentedLetter === ""
+          ? e.key
+          : accentedLetter
         : e.code === "Minus"
         ? "’"
         : e.key,
     ];
-    console.log(temporalWordArr);
     setWordArray((oldValue) => [
       ...oldValue,
       spanishAccentRef.current === "Dead"
-        ? accentedLetter
+        ? accentedLetter === ""
+          ? e.key
+          : accentedLetter
         : e.code === "Minus"
         ? "’"
         : e.key,
