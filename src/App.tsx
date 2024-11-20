@@ -1,8 +1,11 @@
 import { KeyboardEvent, useState, useRef, useEffect } from "react";
 import paragraphs from "../paragraphs.json";
 
+type Language = "english" | "spanish" | null;
+
 export default function App() {
   const paragraphRef = useRef<HTMLDivElement>(null);
+  const spanishAccentRef = useRef<string>("");
 
   //--------------------------------------------------------------------------------------------------------------------------
 
@@ -11,6 +14,7 @@ export default function App() {
   const [fontColor, setFontColor] = useState<string[]>([]);
   const [startTyping, setStartTyping] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
+  const [language, setLanguage] = useState<Language>(null);
   const [timer, setTimer] = useState<{ seconds: number; miliseconds: number }>({
     seconds: 0,
     miliseconds: 0,
@@ -19,10 +23,17 @@ export default function App() {
   //-------------------------------------------------------------------------------------------------------------------------
   useEffect(() => {
     const randomIndex: number = Math.floor(
-      Math.random() * paragraphs.english.length
+      Math.random() *
+        (language === "english"
+          ? paragraphs.english.length
+          : paragraphs.spanish.length)
     );
-    setWord(paragraphs.english[randomIndex].split(""));
-  }, [startTyping]);
+    if (language) {
+      return language === "english"
+        ? setWord(paragraphs.english[randomIndex].split(""))
+        : setWord(paragraphs.spanish[randomIndex].split(""));
+    }
+  }, [language]);
 
   useEffect(() => {
     if (paragraphRef.current) paragraphRef.current.focus();
@@ -50,14 +61,45 @@ export default function App() {
 
   //--------------------------------------------------------------------------------------------------------------------------
   const handleTyping = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!startTyping) return;
+    if (!startTyping || e.key === "Shift") return;
+    if (e.key === "Dead") {
+      spanishAccentRef.current = "Dead";
+      return;
+    }
     if (e.key === "Delete" || e.key === "Backspace") {
       setWordArray((prev) => prev.slice(0, -1));
       setFontColor((prev) => prev.slice(0, -1));
       return;
-    } else if (e.key === "Shift") return;
-    const temporalWordArr = [...wordArray, e.key];
-    setWordArray((oldValue) => [...oldValue, e.key]);
+    }
+    let accentedLetter: string = "";
+    if (spanishAccentRef.current === "Dead") {
+      switch (e.key) {
+        case "a":
+          accentedLetter = "á";
+          break;
+        case "e":
+          accentedLetter = "é";
+          break;
+        case "i":
+          accentedLetter = "í";
+          break;
+        case "o":
+          accentedLetter = "ó";
+          break;
+        case "u":
+          accentedLetter = "ú";
+          break;
+      }
+    }
+    const temporalWordArr = [
+      ...wordArray,
+      spanishAccentRef.current === "Dead" ? accentedLetter : e.key,
+    ];
+    setWordArray((oldValue) => [
+      ...oldValue,
+      spanishAccentRef.current === "Dead" ? accentedLetter : e.key,
+    ]);
+    spanishAccentRef.current = "";
     if (temporalWordArr.length === word!.length) {
       setStartTyping(false);
     }
@@ -94,7 +136,26 @@ export default function App() {
   return (
     <main className="lg:p-24 mx-auto text-center grid lg:gap-12">
       <h1>Typing Speed Checker</h1>
-      {!showResults ? (
+      {!showResults && language === null && (
+        <div className="grid gap-12">
+          <h2>Choose your language</h2>
+          <div className="mx-auto w-1/2 flex gap-12">
+            <button
+              className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
+              onClick={() => setLanguage("spanish")}
+            >
+              Español
+            </button>
+            <button
+              className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
+              onClick={() => setLanguage("english")}
+            >
+              English
+            </button>
+          </div>
+        </div>
+      )}
+      {!showResults && language !== null ? (
         <div
           onKeyDown={(e) => handleTyping(e)}
           tabIndex={0}
