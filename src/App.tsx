@@ -93,11 +93,20 @@ export default function App() {
     }
     const temporalWordArr = [
       ...wordArray,
-      spanishAccentRef.current === "Dead" ? accentedLetter : e.key,
+      spanishAccentRef.current === "Dead"
+        ? accentedLetter
+        : e.code === "Minus"
+        ? "’"
+        : e.key,
     ];
+    console.log(temporalWordArr);
     setWordArray((oldValue) => [
       ...oldValue,
-      spanishAccentRef.current === "Dead" ? accentedLetter : e.key,
+      spanishAccentRef.current === "Dead"
+        ? accentedLetter
+        : e.code === "Minus"
+        ? "’"
+        : e.key,
     ]);
     spanishAccentRef.current = "";
     if (temporalWordArr.length === word!.length) {
