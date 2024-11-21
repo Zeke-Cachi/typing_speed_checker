@@ -174,12 +174,11 @@ export default function App() {
 
   //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="lg:p-24 mx-auto text-center flex flex-col justify-between lg:gap-12 relative h-screen">
+    <main className="lg:p-12 mx-auto text-center flex flex-col justify-between lg:gap-12 relative h-screen">
       <audio ref={audioRef}>
         <source src="../public/typewriter_sound.mp3" type="audio/mp3" />
-        Your browser does not support the audio element.
       </audio>
-      <div className="flex flex-col justify-evenly h-[50%]">
+      <div className="flex flex-col justify-evenly h-[50%] xl:gap-12">
         <div
           className={`absolute inset-0 bg-black opacity-50 place-items-center ${
             countdown === 4 ? "hidden" : "grid"
@@ -187,19 +186,20 @@ export default function App() {
         >
           <p className="text-5xl text-white ">{countdown}</p>
         </div>
-        <h1>Typing Speed Checker</h1>
+        <h1 className="xl:text-6xl">Typing Speed Checker</h1>
         {!showResults && language === null && (
-          <div className="grid gap-12">
-            <h2>Choose your language</h2>
+          <div className="grid gap-12 xl:mt-12">
+            <h2 className="xl:text-2xl">Choose your language</h2>
             <div className="mx-auto w-1/2 flex gap-12">
               <Button
                 title="Español"
                 onClick={() => setLanguage("spanish")}
+                className="xl:h-40 xl:w-80 xl:text-5xl"
               ></Button>
               <Button
                 title="English"
-                className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
                 onClick={() => setLanguage("english")}
+                className="xl:h-40 xl:w-80 xl:text-5xl"
               ></Button>
             </div>
           </div>
