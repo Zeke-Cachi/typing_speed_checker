@@ -15,6 +15,7 @@ export default function App() {
   const [startTyping, setStartTyping] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
   const [language, setLanguage] = useState<Language>(null);
+  const [countdown, setCountdown] = useState<number>(4);
   const [timer, setTimer] = useState<{ seconds: number; miliseconds: number }>({
     seconds: 0,
     miliseconds: 0,
@@ -130,8 +131,24 @@ export default function App() {
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
+  const handleCountdown = () => {
+    setCountdown((prev) => prev - 1);
+    let currentCountdown = countdown - 1;
+    const interval = setInterval(() => {
+      if (currentCountdown > 1) {
+        setCountdown((prev) => prev - 1);
+        currentCountdown--;
+      } else {
+        clearInterval(interval);
+        setStartTyping(true);
+        setCountdown(4);
+      }
+    }, 1000);
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
   const handleClick = () => {
-    setStartTyping(true);
+    handleCountdown();
     if (showResults) {
       resetTurn();
     }
@@ -145,11 +162,20 @@ export default function App() {
     setShowResults(false);
     setWordArray([]);
     setFontColor([]);
+    setWord([]);
+    setLanguage(null);
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="lg:p-24 mx-auto text-center grid lg:gap-12">
+    <main className="lg:p-24 mx-auto text-center grid lg:gap-12 relative">
+      <div
+        className={`absolute inset-0 bg-black opacity-50 place-items-center ${
+          countdown === 4 ? "hidden" : "grid"
+        }`}
+      >
+        <p className="text-5xl text-white ">{countdown}</p>
+      </div>
       <h1>Typing Speed Checker</h1>
       {!showResults && language === null && (
         <div className="grid gap-12">
@@ -208,9 +234,16 @@ export default function App() {
             </span>{" "}
             errors
           </p>
+          <button
+            onClick={() => {
+              resetTurn();
+            }}
+          >
+            Volver
+          </button>
         </div>
       )}
-      {language && (
+      {language && !showResults && (
         <>
           <p className="text-2xl">
             <span>{formatNumber(timer.seconds)}</span>:
