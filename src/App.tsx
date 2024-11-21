@@ -1,5 +1,6 @@
 import { KeyboardEvent, useState, useRef, useEffect } from "react";
 import paragraphs from "../paragraphs.json";
+import Button from "./components/Button";
 
 type Language = "english" | "spanish" | null;
 
@@ -181,18 +182,14 @@ export default function App() {
         <div className="grid gap-12">
           <h2>Choose your language</h2>
           <div className="mx-auto w-1/2 flex gap-12">
-            <button
-              className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
-              onClick={() => setLanguage("spanish")}
-            >
+            <Button title="Español" onClick={() => setLanguage("spanish")}>
               Español
-            </button>
-            <button
+            </Button>
+            <Button
+              title="English"
               className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
               onClick={() => setLanguage("english")}
-            >
-              English
-            </button>
+            ></Button>
           </div>
         </div>
       )}
@@ -234,13 +231,12 @@ export default function App() {
             </span>{" "}
             errors
           </p>
-          <button
+          <Button
+            title="Volver"
             onClick={() => {
               resetTurn();
             }}
-          >
-            Volver
-          </button>
+          ></Button>
         </div>
       )}
       {language && !showResults && (
@@ -249,13 +245,11 @@ export default function App() {
             <span>{formatNumber(timer.seconds)}</span>:
             <span>{formatNumber(timer.miliseconds)}</span>
           </p>
-          <button
-            className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
+          <Button
+            title="Start"
             onClick={() => handleClick()}
             disabled={startTyping}
-          >
-            Start
-          </button>
+          ></Button>
         </>
       )}
     </main>
