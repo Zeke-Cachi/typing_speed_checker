@@ -12,7 +12,7 @@ const Button = ({ title, ...props }: ButtonProps) => {
     <button
       {...props}
       className={twMerge(
-        "bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800",
+        "bg-accent_steel text-primary_ivory w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-accent_sky disabled:bg-gray-300 disabled:text-accent_sky",
         className
       )}
     >

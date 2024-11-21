@@ -1,6 +1,7 @@
 import { KeyboardEvent, useState, useRef, useEffect } from "react";
 import paragraphs from "../paragraphs.json";
 import Button from "./components/Button";
+import ClipLoader from "react-spinners/ClipLoader";
 
 type Language = "english" | "spanish" | null;
 
@@ -68,7 +69,7 @@ export default function App() {
       audioRef.current.currentTime = 0;
       audioRef.current!.play();
     }
-    if (!startTyping || e.key === "Shift") return;
+    if (!startTyping || e.key === "Shift" || e.key === "Control") return;
     if (e.key === "Dead") {
       spanishAccentRef.current = "Dead";
       return;
@@ -131,7 +132,7 @@ export default function App() {
       : setFontColor((prev) => [
           ...prev,
           word![temporalWordArr.length - 1].trim().length === 0
-            ? "bg-red-500"
+            ? "bg-red-500 w-1 rounded-full"
             : "text-red-500",
         ]);
   };
@@ -173,33 +174,85 @@ export default function App() {
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
+  const reduceFontColor = () => {
+    return fontColor.reduce(
+      (acc, element) =>
+        element === "text-red-500" || element === "bg-red-500" ? acc + 1 : acc,
+      0
+    );
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
+  const reduceWordArray = () => {
+    return wordArray
+      .join("")
+      .split(" ")
+      .reduce((acc, element) => (element ? acc + 1 : acc), 0);
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
+  const resultingMessage = () => {
+    if (reduceWordArray() <= 30) {
+      return (
+        <p className="text-red-500 lg:font-2xl font-bold">
+          You're just getting started, keep going!
+        </p>
+      );
+    } else if (reduceWordArray() > 30 && reduceWordArray() <= 60) {
+      return (
+        <p className="text-orange-500 lg:font-2xl font-bold">
+          Nice progress, you're finding your rhythm!
+        </p>
+      );
+    } else if (reduceWordArray() > 60 && reduceWordArray() <= 90) {
+      return (
+        <p className="text-green-400 lg:font-2xl font-bold">
+          You're a speedster, your fingers are on fire!
+        </p>
+      );
+    } else if (reduceWordArray() > 90) {
+      return (
+        <p className="text-green-700 lg:font-2xl font-bold">
+          You're a legend! Keep blazing that keyboard!
+        </p>
+      );
+    }
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="lg:p-12 mx-auto text-center flex flex-col justify-between lg:gap-12 relative h-screen">
+    <main className="lg:p-12 mx-auto text-center flex flex-col justify-between lg:gap-12 relative h-screen bg-primary_ivory">
       <audio ref={audioRef}>
         <source src="../public/typewriter_sound.mp3" type="audio/mp3" />
       </audio>
-      <div className="flex flex-col justify-evenly h-[50%] xl:gap-12">
+      <div className="flex flex-col justify-evenly min-h-[50%] lg:gap-12 lg:mt-12">
         <div
-          className={`absolute inset-0 bg-black opacity-50 place-items-center ${
+          className={`absolute inset-0 bg-black opacity-40 place-items-center ${
             countdown === 4 ? "hidden" : "grid"
           }`}
         >
-          <p className="text-5xl text-white ">{countdown}</p>
+          <p className="text-[18rem] text-primary_ivory font-bold animate-pulse">
+            {countdown}
+          </p>
         </div>
-        <h1 className="xl:text-6xl">Typing Speed Checker</h1>
+        <h1 className="lg:text-6xl text-primary_charcoal">
+          Typing Speed Checker
+        </h1>
         {!showResults && language === null && (
-          <div className="grid gap-12 xl:mt-12">
-            <h2 className="xl:text-2xl">Choose your language</h2>
+          <div className="grid gap-12 lg:mt-12">
+            <h2 className="lg:text-2xl text-primary_charcoal">
+              Choose your language
+            </h2>
             <div className="mx-auto w-1/2 flex gap-12">
               <Button
                 title="Español"
                 onClick={() => setLanguage("spanish")}
-                className="xl:h-40 xl:w-80 xl:text-5xl"
+                className="lg:h-40 lg:w-80 lg:text-5xl"
               ></Button>
               <Button
                 title="English"
                 onClick={() => setLanguage("english")}
-                className="xl:h-40 xl:w-80 xl:text-5xl"
+                className="lg:h-40 lg:w-80 lg:text-5xl"
               ></Button>
             </div>
           </div>
@@ -208,51 +261,43 @@ export default function App() {
           <div
             onKeyDown={(e) => handleTyping(e)}
             tabIndex={0}
-            className="focus:outline-none"
+            className="focus:outline-none lg:px-20"
             ref={paragraphRef}
           >
-            {word!.length > 0 &&
+            {word!.length > 0 ? (
               word!.map((element, i) => (
-                <span key={i} className={`font-bold ${fontColor[i]}`}>
+                <span
+                  key={i}
+                  className={`font-bold ${fontColor[i]} text-lg lg:mt-12`}
+                >
                   {element}
                 </span>
-              ))}
+              ))
+            ) : (
+              <ClipLoader size={70} />
+            )}
           </div>
         )}
         {showResults && (
-          <div className="grid gap-6">
-            You wrote{" "}
-            <span>
-              {wordArray
-                .join("")
-                .split(" ")
-                .reduce((acc, element) => (element ? acc + 1 : acc), 0)}
-            </span>{" "}
-            words
-            <p>
-              You had:{" "}
-              <span>
-                {fontColor.reduce(
-                  (acc, element) =>
-                    element === "text-red-500" || element === "bg-red-500"
-                      ? acc + 1
-                      : acc,
-                  0
-                )}
-              </span>{" "}
-              errors
+          <div className="lg:mt-20 grid gap-6">
+            <span className="lg:text-4xl">You wrote </span>
+            <span className="lg:text-6xl">{reduceWordArray()} words</span>{" "}
+            <p className="lg:text-2xl">
+              You had: <span>{reduceFontColor()}</span> errors
             </p>
+            {resultingMessage()}
             <Button
-              title="Volver"
+              title="Go back"
               onClick={() => {
                 resetTurn();
               }}
+              className="lg:h-20 lg:w-32 lg:text-2xl lg:mt-20"
             ></Button>
           </div>
         )}
         {language && !showResults && (
           <>
-            <p className="text-2xl">
+            <p className="text-4xl p-4 outline outline-accent_steel w-32 rounded-md mx-auto">
               <span>{formatNumber(timer.seconds)}</span>:
               <span>{formatNumber(timer.miliseconds)}</span>
             </p>
@@ -260,12 +305,14 @@ export default function App() {
               title="Start"
               onClick={() => handleClick()}
               disabled={startTyping}
+              className="lg:h-20 lg:w-32 lg:text-3xl"
             ></Button>
           </>
         )}
       </div>
-      <div>
-        Do you like this page? you can donate <span>here</span>
+      <div className="text-lg font-bold">
+        Do you like this page? you can donate{" "}
+        <span className="underline text-accent_steel">here</span>
       </div>
     </main>
   );
