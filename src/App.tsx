@@ -170,7 +170,7 @@ export default function App() {
           </div>
         </div>
       )}
-      {!showResults && language !== null ? (
+      {!showResults && language !== null && (
         <div
           onKeyDown={(e) => handleTyping(e)}
           tabIndex={0}
@@ -184,7 +184,8 @@ export default function App() {
               </span>
             ))}
         </div>
-      ) : (
+      )}
+      {showResults && (
         <div className="grid gap-6">
           You wrote{" "}
           <span>
