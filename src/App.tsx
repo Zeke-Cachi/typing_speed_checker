@@ -170,7 +170,7 @@ export default function App() {
           </div>
         </div>
       )}
-      {!showResults && language !== null && (
+      {!showResults && language && (
         <div
           onKeyDown={(e) => handleTyping(e)}
           tabIndex={0}
@@ -210,17 +210,21 @@ export default function App() {
           </p>
         </div>
       )}
-      <p className="text-2xl">
-        <span>{formatNumber(timer.seconds)}</span>:
-        <span>{formatNumber(timer.miliseconds)}</span>
-      </p>
-      <button
-        className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
-        onClick={() => handleClick()}
-        disabled={startTyping}
-      >
-        Start
-      </button>
+      {language && (
+        <>
+          <p className="text-2xl">
+            <span>{formatNumber(timer.seconds)}</span>:
+            <span>{formatNumber(timer.miliseconds)}</span>
+          </p>
+          <button
+            className="bg-blue-500 text-white w-20 h-12 rounded-md font-bold text-lg mx-auto hover:bg-blue-400 disabled:bg-gray-300 disabled:text-gray-800"
+            onClick={() => handleClick()}
+            disabled={startTyping}
+          >
+            Start
+          </button>
+        </>
+      )}
     </main>
   );
 }
