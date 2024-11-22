@@ -10,6 +10,10 @@ export default {
         primary_ivory: "#F1F0E8",
         primary_charcoal: "#2A2A2A",
       },
+      fontFamily: {
+        geist: ["Geist Mono", "sans-serif"],
+        nunito: ["Nunito Sans", "sans-serif"],
+      },
     },
   },
   plugins: [],

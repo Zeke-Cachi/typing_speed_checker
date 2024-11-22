@@ -194,25 +194,25 @@ export default function App() {
   const resultingMessage = () => {
     if (reduceWordArray() <= 30) {
       return (
-        <p className="text-red-500 lg:font-2xl font-bold">
+        <p className="text-red-500 lg:text-3xl font-bold font-nunito">
           You're just getting started, keep going!
         </p>
       );
     } else if (reduceWordArray() > 30 && reduceWordArray() <= 60) {
       return (
-        <p className="text-orange-500 lg:font-2xl font-bold">
+        <p className="text-orange-500 lg:text-3xl font-bold font-nunito">
           Nice progress, you're finding your rhythm!
         </p>
       );
     } else if (reduceWordArray() > 60 && reduceWordArray() <= 90) {
       return (
-        <p className="text-green-400 lg:font-2xl font-bold">
+        <p className="text-green-400 lg:text-3xl font-bold font-nunito">
           You're a speedster, your fingers are on fire!
         </p>
       );
     } else if (reduceWordArray() > 90) {
       return (
-        <p className="text-green-700 lg:font-2xl font-bold">
+        <p className="text-green-700 lg:text-3xl font-bold font-nunito">
           You're a legend! Keep blazing that keyboard!
         </p>
       );
@@ -235,12 +235,12 @@ export default function App() {
             {countdown}
           </p>
         </div>
-        <h1 className="lg:text-6xl text-primary_charcoal">
+        <h1 className="lg:text-6xl text-primary_charcoal font-nunito">
           Typing Speed Checker
         </h1>
         {!showResults && language === null && (
           <div className="grid gap-12 lg:mt-12">
-            <h2 className="lg:text-2xl text-primary_charcoal">
+            <h2 className="lg:text-2xl text-primary_charcoal font-nunito">
               Choose your language
             </h2>
             <div className="mx-auto w-1/2 flex gap-12">
@@ -268,7 +268,7 @@ export default function App() {
               word!.map((element, i) => (
                 <span
                   key={i}
-                  className={`font-bold ${fontColor[i]} text-lg lg:mt-12`}
+                  className={`font-semibold ${fontColor[i]} text-lg lg:mt-12 font-geist`}
                 >
                   {element}
                 </span>
@@ -280,9 +280,11 @@ export default function App() {
         )}
         {showResults && (
           <div className="lg:mt-20 grid gap-6">
-            <span className="lg:text-4xl">You wrote </span>
-            <span className="lg:text-6xl">{reduceWordArray()} words</span>{" "}
-            <p className="lg:text-2xl">
+            <span className="lg:text-4xl font-nunito">You wrote </span>
+            <span className="lg:text-6xl font-nunito">
+              {reduceWordArray()} words
+            </span>{" "}
+            <p className="lg:text-2xl font-nunito">
               You had: <span>{reduceFontColor()}</span> errors
             </p>
             {resultingMessage()}
@@ -310,9 +312,9 @@ export default function App() {
           </>
         )}
       </div>
-      <div className="text-lg font-bold">
+      <div className="text-lg font-bold text-nunito">
         Do you like this page? you can donate{" "}
-        <span className="underline text-accent_steel">here</span>
+        <span className="underline text-accent_steel font-geist">here</span>
       </div>
     </main>
   );
