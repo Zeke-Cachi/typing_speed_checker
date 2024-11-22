@@ -194,25 +194,25 @@ export default function App() {
   const resultingMessage = () => {
     if (reduceWordArray() <= 30) {
       return (
-        <p className="text-red-500 lg:text-3xl font-bold font-nunito">
+        <p className="text-red-500 2xl:text-3xl font-bold font-nunito">
           You're just getting started, keep going!
         </p>
       );
     } else if (reduceWordArray() > 30 && reduceWordArray() <= 60) {
       return (
-        <p className="text-orange-500 lg:text-3xl font-bold font-nunito">
+        <p className="text-orange-500 2xl:text-3xl font-bold font-nunito">
           Nice progress, you're finding your rhythm!
         </p>
       );
     } else if (reduceWordArray() > 60 && reduceWordArray() <= 90) {
       return (
-        <p className="text-green-400 lg:text-3xl font-bold font-nunito">
+        <p className="text-green-400 2xl:text-3xl font-bold font-nunito">
           You're a speedster, your fingers are on fire!
         </p>
       );
     } else if (reduceWordArray() > 90) {
       return (
-        <p className="text-green-700 lg:text-3xl font-bold font-nunito">
+        <p className="text-green-700 2xl:text-3xl font-bold font-nunito">
           You're a legend! Keep blazing that keyboard!
         </p>
       );
@@ -221,11 +221,11 @@ export default function App() {
 
   //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="lg:p-12 mx-auto text-center flex flex-col justify-between lg:gap-12 relative h-screen bg-primary_ivory">
+    <main className="md:p-6 2xl:p-12 mx-auto text-center flex flex-col justify-between 2xl:gap-12 relative h-screen bg-primary_ivory">
       <audio ref={audioRef}>
         <source src="../public/typewriter_sound.mp3" type="audio/mp3" />
       </audio>
-      <div className="flex flex-col justify-evenly min-h-[50%] lg:gap-12 lg:mt-12">
+      <div className="flex flex-col justify-evenly min-h-[50%] 2xl:gap-12 2xl:mt-12">
         <div
           className={`absolute inset-0 bg-black opacity-40 place-items-center ${
             countdown === 4 ? "hidden" : "grid"
@@ -235,24 +235,24 @@ export default function App() {
             {countdown}
           </p>
         </div>
-        <h1 className="lg:text-6xl text-primary_charcoal font-nunito">
+        <h1 className="text-5xl 2xl:text-6xl text-primary_charcoal font-nunito">
           Typing Speed Checker
         </h1>
         {!showResults && language === null && (
-          <div className="grid gap-12 lg:mt-12">
-            <h2 className="lg:text-2xl text-primary_charcoal font-nunito">
+          <div className="grid gap-12 2xl:mt-12">
+            <h2 className="text-xl 2xl:text-2xl text-primary_charcoal font-nunito">
               Choose your language
             </h2>
             <div className="mx-auto w-1/2 flex gap-12">
               <Button
                 title="Español"
                 onClick={() => setLanguage("spanish")}
-                className="lg:h-40 lg:w-80 lg:text-5xl"
+                className="h-28 w-48 2xl:h-40 2xl:w-80 text-3xl 2xl:text-5xl"
               ></Button>
               <Button
                 title="English"
                 onClick={() => setLanguage("english")}
-                className="lg:h-40 lg:w-80 lg:text-5xl"
+                className="h-28 w-48 2xl:h-40 2xl:w-80 text-3xl 2xl:text-5xl"
               ></Button>
             </div>
           </div>
@@ -261,14 +261,14 @@ export default function App() {
           <div
             onKeyDown={(e) => handleTyping(e)}
             tabIndex={0}
-            className="focus:outline-none lg:px-20"
+            className="focus:outline-none 2xl:px-20"
             ref={paragraphRef}
           >
             {word!.length > 0 ? (
               word!.map((element, i) => (
                 <span
                   key={i}
-                  className={`font-semibold ${fontColor[i]} text-lg lg:mt-12 font-geist`}
+                  className={`font-semibold ${fontColor[i]} text-lg 2xl:mt-12 font-geist`}
                 >
                   {element}
                 </span>
@@ -279,12 +279,12 @@ export default function App() {
           </div>
         )}
         {showResults && (
-          <div className="lg:mt-20 grid gap-6">
-            <span className="lg:text-4xl font-nunito">You wrote </span>
-            <span className="lg:text-6xl font-nunito">
+          <div className="2xl:mt-20 grid gap-6">
+            <span className="2xl:text-4xl font-nunito">You wrote </span>
+            <span className="2xl:text-6xl font-nunito">
               {reduceWordArray()} words
             </span>{" "}
-            <p className="lg:text-2xl font-nunito">
+            <p className="2xl:text-2xl font-nunito">
               You had: <span>{reduceFontColor()}</span> errors
             </p>
             {resultingMessage()}
@@ -293,7 +293,7 @@ export default function App() {
               onClick={() => {
                 resetTurn();
               }}
-              className="lg:h-20 lg:w-32 lg:text-2xl lg:mt-20"
+              className="2xl:h-20 2xl:w-32 2xl:text-2xl 2xl:mt-20"
             ></Button>
           </div>
         )}
@@ -307,7 +307,7 @@ export default function App() {
               title="Start"
               onClick={() => handleClick()}
               disabled={startTyping}
-              className="lg:h-20 lg:w-32 lg:text-3xl"
+              className="2xl:h-20 2xl:w-32 2xl:text-3xl"
             ></Button>
           </>
         )}
