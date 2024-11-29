@@ -194,25 +194,25 @@ export default function App() {
   const resultingMessage = () => {
     if (reduceWordArray() <= 30) {
       return (
-        <p className="text-red-500 2xl:text-3xl font-bold font-nunito">
+        <p className="text-red-500 text-xl 2xl:text-3xl font-bold font-nunito">
           You're just getting started, keep going!
         </p>
       );
     } else if (reduceWordArray() > 30 && reduceWordArray() <= 60) {
       return (
-        <p className="text-orange-500 2xl:text-3xl font-bold font-nunito">
+        <p className="text-orange-500 text-xl 2xl:text-3xl font-bold font-nunito">
           Nice progress, you're finding your rhythm!
         </p>
       );
     } else if (reduceWordArray() > 60 && reduceWordArray() <= 90) {
       return (
-        <p className="text-green-400 2xl:text-3xl font-bold font-nunito">
+        <p className="text-green-400 text-xl 2xl:text-3xl font-bold font-nunito">
           You're a speedster, your fingers are on fire!
         </p>
       );
     } else if (reduceWordArray() > 90) {
       return (
-        <p className="text-green-700 2xl:text-3xl font-bold font-nunito">
+        <p className="text-green-700 text-xl 2xl:text-3xl font-bold font-nunito">
           You're a legend! Keep blazing that keyboard!
         </p>
       );
@@ -221,11 +221,11 @@ export default function App() {
 
   //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="md:p-6 2xl:p-12 mx-auto text-center flex flex-col justify-between 2xl:gap-12 relative h-screen bg-primary_ivory">
+    <main className="md:pt-12 md:px-8 2xl:p-12 mx-auto text-center flex flex-col justify-between 2xl:gap-12 relative h-screen bg-primary_ivory">
       <audio ref={audioRef}>
         <source src="../public/typewriter_sound.mp3" type="audio/mp3" />
       </audio>
-      <div className="flex flex-col justify-evenly min-h-[50%] 2xl:gap-12 2xl:mt-12">
+      <div className="flex flex-col justify-evenly min-h-[50%] gap-4 2xl:gap-12 2xl:mt-12">
         <div
           className={`absolute inset-0 bg-black opacity-40 place-items-center ${
             countdown === 4 ? "hidden" : "grid"
@@ -261,14 +261,14 @@ export default function App() {
           <div
             onKeyDown={(e) => handleTyping(e)}
             tabIndex={0}
-            className="focus:outline-none 2xl:px-20"
+            className="focus:outline-none px-8 2xl:px-20"
             ref={paragraphRef}
           >
             {word!.length > 0 ? (
               word!.map((element, i) => (
                 <span
                   key={i}
-                  className={`font-semibold ${fontColor[i]} text-lg 2xl:mt-12 font-geist`}
+                  className={`font-semibold ${fontColor[i]}  text-sm/4 2xl:text-lg 2xl:mt-12 font-geist`}
                 >
                   {element}
                 </span>
@@ -279,12 +279,14 @@ export default function App() {
           </div>
         )}
         {showResults && (
-          <div className="2xl:mt-20 grid gap-6">
-            <span className="2xl:text-4xl font-nunito">You wrote </span>
-            <span className="2xl:text-6xl font-nunito">
+          <div className="2xl:mt-20 grid gap-12 2xl:gap-6">
+            <span className=" text-3xl 2xl:text-4xl font-nunito">
+              You wrote{" "}
+            </span>
+            <span className="text-5xl 2xl:text-6xl font-nunito">
               {reduceWordArray()} words
             </span>{" "}
-            <p className="2xl:text-2xl font-nunito">
+            <p className="text-2xl font-nunito">
               You had: <span>{reduceFontColor()}</span> errors
             </p>
             {resultingMessage()}
@@ -299,7 +301,7 @@ export default function App() {
         )}
         {language && !showResults && (
           <>
-            <p className="text-4xl p-4 outline outline-accent_steel w-32 rounded-md mx-auto">
+            <p className="text-xl 2xl:text-4xl 2xl:p-4 outline outline-accent_steel w-16 text-center 2xl:w-32 rounded-md mx-auto">
               <span>{formatNumber(timer.seconds)}</span>:
               <span>{formatNumber(timer.miliseconds)}</span>
             </p>
@@ -312,7 +314,7 @@ export default function App() {
           </>
         )}
       </div>
-      <div className="text-lg font-bold text-nunito">
+      <div className="text-sm mb-4 2xl:mb-0 2xl:text-lg font-bold text-nunito">
         Do you like this page? you can donate{" "}
         <span className="underline text-accent_steel font-geist">here</span>
       </div>
