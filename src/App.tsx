@@ -221,7 +221,7 @@ export default function App() {
 
   //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <main className="md:pt-12 md:px-8 2xl:p-12 mx-auto text-center flex flex-col justify-between 2xl:gap-12 relative h-screen bg-primary_ivory">
+    <main className="md:pt-12 md:px-8 2xl:p-12 mx-auto text-center flex flex-col justify-between 2xl:gap-12 relative h-screen bg-primary_ivory bg-blend-lighten bg-[url(../public/semi_transparent_overlay.png)] bg-cover">
       <audio ref={audioRef}>
         <source src="../public/typewriter_sound.mp3" type="audio/mp3" />
       </audio>
