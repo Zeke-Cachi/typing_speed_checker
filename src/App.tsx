@@ -2,10 +2,15 @@ import { KeyboardEvent, useState, useRef, useEffect } from "react";
 import paragraphs from "../paragraphs.json";
 import Button from "./components/Button";
 import ClipLoader from "react-spinners/ClipLoader";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import axios from "axios";
 
 type Language = "english" | "spanish" | null;
 
 export default function App() {
+  initMercadoPago("YOUR_PUBLIC_KEY", {
+    locale: "en-US",
+  });
   const paragraphRef = useRef<HTMLDivElement>(null);
   const spanishAccentRef = useRef<string>("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -19,6 +24,7 @@ export default function App() {
   const [showResults, setShowResults] = useState<boolean>(false);
   const [language, setLanguage] = useState<Language>(null);
   const [countdown, setCountdown] = useState<number>(4);
+  const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [timer, setTimer] = useState<{ seconds: number; miliseconds: number }>({
     seconds: 0,
     miliseconds: 0,
@@ -62,6 +68,23 @@ export default function App() {
     }
     return () => clearInterval(interval);
   }, [startTyping]);
+
+  //--------------------------------------------------------------------------------------------------------------------------
+  const createDonationInfo = async () => {
+    try {
+      const response = await axios.post("http://localhost:5173/donation", {
+        title: "Donation",
+        quantity: 1,
+        price: 1000,
+      });
+
+      const { id } = response.data;
+      setPreferenceId(id);
+    } catch (e: unknown) {
+      console.log(e);
+      return "there was an error";
+    }
+  };
 
   //--------------------------------------------------------------------------------------------------------------------------
   const handleTyping = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -316,8 +339,17 @@ export default function App() {
       </div>
       <div className="text-sm mb-4 2xl:mb-0 2xl:text-lg font-bold text-nunito">
         Do you like this page? you can donate{" "}
-        <span className="underline text-accent_steel font-geist">here</span>
+        <button
+          role="button"
+          onClick={() => createDonationInfo()}
+          className="underline text-accent_steel font-geist"
+        >
+          here
+        </button>
       </div>
+      <Wallet
+        initialization={{ preferenceId: preferenceId ? preferenceId : "" }}
+      />
     </main>
   );
 }
