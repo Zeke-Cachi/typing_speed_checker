@@ -316,7 +316,12 @@ export default function App() {
       </div>
       <div className="text-sm mb-4 2xl:mb-0 2xl:text-lg font-bold text-nunito">
         Do you like this page? you can donate{" "}
-        <span className="underline text-accent_steel font-geist">here</span>
+        <a
+          className="underline text-accent_steel font-geist"
+          href={import.meta.env.VITE_CAFECITO_URL}
+        >
+          here
+        </a>
       </div>
     </main>
   );
